@@ -1,6 +1,12 @@
 import { MODULE_BY_KEY } from '@/data/modules'
 import { allRows, listRows, resetRows, saveRows } from '@/data/local-store'
 import type { ActionResult, EntryRow, ModuleMeta, OverviewResult, PageResult } from '@/data/types'
+import {
+  adoptSuggestion,
+  ignoreSuggestion,
+  resetQueryOptData,
+  runEvaluationAction,
+} from './query-opt-service'
 
 // 会写进数据的「往回走」动作：命中就把这条记录标成异常态，看板上能一眼看出来。
 const NEGATIVE_ACTIONS = ['撤销', '作废', '拒绝', '驳回', '停用', '忽略', '下线', '回滚']
@@ -29,6 +35,26 @@ export function listEntries(key: string, filters: Record<string, string> = {}): 
 }
 
 export function runAction(key: string, id: number, action: string): ActionResult {
+  // 查询优化与结果评估有自己的采纳/评估规则：统一走同一服务，页面和通用入口不会各写一套。
+  if (key === 'queryopt') {
+    if (action === '采纳建议') {
+      const result = adoptSuggestion(id)
+      return { ok: result.ok, message: result.message }
+    }
+    if (action === '忽略建议') {
+      const result = ignoreSuggestion(id)
+      return { ok: result.ok, message: result.message }
+    }
+    // 生成建议必须新增一条待评审建议，绝不能把已采纳行的状态改回「优化建议中」。
+    return {
+      ok: false,
+      message: '生成建议请从「登记优化建议」新增一条待评审建议，不要覆盖已有行的采纳状态',
+    }
+  }
+  if (key === 'resulteval') {
+    const result = runEvaluationAction(id, action)
+    return { ok: result.ok, message: result.message }
+  }
   const meta = moduleMeta(key)
   const target = meta.actionTargets[action]
   if (!target) {
@@ -57,6 +83,11 @@ export function runAction(key: string, id: number, action: string): ActionResult
 }
 
 export function resetModule(key: string): PageResult {
+  // 这两个模块的建议表和查询改写数据集必须一起重置，否则又会出现「只剩其中一个字段」。
+  if (key === 'queryopt' || key === 'resulteval') {
+    resetQueryOptData()
+    return listEntries(key)
+  }
   resetRows(key)
   return listEntries(key)
 }

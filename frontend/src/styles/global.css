@@ -35,3 +35,48 @@ body { margin: 0; background: #f6f8fb; color: #1f2937; }
 .error-text { color: #b42318; }
 .status-legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 10px; font-size: 12px; color: var(--muted); }
 .legend-item { background: #eef2f7; border-radius: 999px; padding: 2px 10px; }
+
+/* ===== 查询优化 / 结果评估：建议分组、差异对照与状态路径 ===== */
+.panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; }
+.panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.panel-head h3 { font-size: 14px; margin: 0; }
+.panel-head-actions { display: flex; gap: 8px; align-items: center; }
+.panel-hint { color: var(--muted); font-size: 12px; }
+.detail-panel { border-color: #b8cdf0; }
+.muted-text { color: var(--muted); font-size: 12px; }
+.notice-text { color: #0f6b3f; background: #eaf7ef; border: 1px solid #bfe3cc; border-radius: 6px; padding: 6px 10px; font-size: 12px; }
+.query-cell { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+tr.selected td { background: #eef4ff; }
+.badge { display: inline-block; border-radius: 999px; padding: 1px 8px; font-size: 12px; background: #eef2f7; color: #334155; }
+.badge-current { background: #e3f5ea; color: #0f6b3f; }
+.badge-active { background: #e8f0ff; color: #1f4fbf; }
+.badge-warn { background: #fdf0dc; color: #9a5b00; }
+.badge-muted { background: #edeff3; color: #64748b; }
+.link:disabled { color: #9aa4b2; cursor: not-allowed; }
+.meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px 14px; margin: 8px 0 12px; }
+.meta-grid dt { color: var(--muted); font-size: 12px; }
+.meta-grid dd { margin: 2px 0 0; font-size: 13px; word-break: break-all; }
+.diff-block { margin: 12px 0; }
+.diff-block h4, .diff-columns h4 { font-size: 13px; margin: 0 0 6px; }
+.diff-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin: 12px 0; }
+.sql-box { background: #0f172a; color: #e2e8f0; border-radius: 6px; padding: 10px; font-size: 12px; line-height: 1.6; white-space: pre-wrap; word-break: break-all; margin: 0; }
+.diff-add { background: #14532d; color: #bbf7d0; }
+.diff-del { background: #7f1d1d; color: #fecaca; }
+.diff-same { color: #e2e8f0; }
+.timeline { margin: 0; padding-left: 18px; font-size: 13px; }
+.timeline li { margin-bottom: 8px; }
+.timeline-note { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
+.validation-box { border: 1px dashed #d6b878; border-radius: 6px; padding: 8px 12px; background: #fffbf0; margin-top: 10px; }
+.validation-box h4 { margin: 0 0 4px; font-size: 13px; }
+.validation-box ul { margin: 0; padding-left: 18px; font-size: 12px; color: #7a5200; }
+.gap-list { list-style: none; margin: 0; padding: 0; font-size: 13px; }
+.gap-list li { display: flex; gap: 8px; align-items: baseline; padding: 4px 0; border-bottom: 1px dashed #e6ebf2; }
+.modal-mask { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 20; }
+.modal { background: #fff; border-radius: 10px; padding: 16px 18px; width: min(760px, 100%); max-height: 88vh; overflow: auto; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; margin: 10px 0; }
+.form-grid label span { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.form-grid input, .form-grid select, .form-grid textarea { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: 13px; font-family: inherit; }
+.form-grid input:disabled, .form-grid textarea:disabled { background: #f3f5f9; color: #64748b; }
+.form-grid .span-2 { grid-column: span 2; }
+.modal-foot { display: flex; justify-content: flex-end; }
+
